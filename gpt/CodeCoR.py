@@ -347,7 +347,7 @@ if __name__ == "__main__":
         if final_code:
             samples.append({"task_id": task_id, "completion": final_code})
 
-            write_jsonl("samples_CodeCoR_gpt_4.jsonl", samples)
+            write_jsonl("samples_CodeCoR.jsonl", samples)
             samples = [] 
 #Sometimes the generation may be interrupted due to network problems. In order to restart the generation from the interrupted point, we save the result in a jsonl file every time we get it.
 
