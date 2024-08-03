@@ -1,8 +1,8 @@
 # CodeCoR
 
-**:relaxed:This is CodeCoR’s review reference code. A new version will be compiled and open sourced on github later.**
+**This is CodeCoR’s review reference code. A new version will be compiled and open sourced on github later.**
 
-:bear:Below is our directory structure.
+Below is our directory structure.
 
 ```
 CODECOR_FOR_REVIEW
@@ -15,7 +15,7 @@ CODECOR_FOR_REVIEW
 └── README.md
 ```
 
-:panda_face:Below is a description of each folder.
+Below is a description of each folder.
 
 - **codellama**
 
