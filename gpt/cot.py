@@ -101,9 +101,9 @@ print("read_problems is done!")
 samples = []
 
 def write_jsonl(file_path, data):
-    # 以追加模式打开文件
+ 
     with open(file_path, 'a', encoding='utf-8') as f:
-        # 逐行写入数据
+ 
         for item in data:
             f.write(json.dumps(item) + '\n')
 
