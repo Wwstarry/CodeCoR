@@ -43,6 +43,3 @@ Below is a description of each folder.
   This folder saves some of the tools we used for data processing during the experiment, such as cleaning the complete MBPP data set into a test data set.
 
 
-
-**Because the code is written a lot and is very complicated, it may be a bit messy after sorting it out. You can select the key parts to reproduce, and then get the results for evaluation. Thank you very much for reading this and wish you a happy life.**
-
