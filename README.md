@@ -2,9 +2,7 @@
 
 This repository contains the implementation and supplementary resources for the CodeCoR framework, as described in our paper.
 
-The framework, CodeCoR, aims to a self-reflective multi-agent framework that evaluates the effectiveness of each agent and
-
-their collaborations. Below is an overview of the directory structure and contents, organized to facilitate replication and further experimentation.
+The framework, CodeCoR, aims to a self-reflective multi-agent framework that evaluates the effectiveness of each agent and their collaborations. Below is an overview of the directory structure and contents, organized to facilitate replication and further experimentation.
 
 ### Directory Structure
 
