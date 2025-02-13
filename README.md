@@ -31,6 +31,9 @@ This directory provides utility scripts and helper functions essential for the C
 The diagram below elucidates the prompt generation mechanism within the CodeCoR framework:
 ![Prompt Image](./image/prompt.png)
 
+The diagram shows the pruning prompts of agents and the workflow for pruning the low-quality outputs.
+![Prompt Image](./image/prune_method_v1.png)
+
 ### Baseline
 
 The table below delineates the baseline configuration employed for comparative evaluation, providing a reference for the framework's performance metrics:
