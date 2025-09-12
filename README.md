@@ -29,10 +29,10 @@ This directory provides utility scripts and helper functions essential for the C
 ### Prompts
 
 The diagram below elucidates the prompt generation mechanism within the CodeCoR framework:
-![Prompt Image](./image/agent prompt v2.pdf)
+![Prompt Image](./image/1.png)
 
 The diagram shows the pruning prompts of agents and the workflow for pruning the low-quality outputs.
-![Prompt Image](./image/prompt_pruned.pdf)
+![Prompt Image](./image/3.png)
 
 ### Baseline
 
@@ -92,7 +92,7 @@ The efficacy of CodeCoR can be attributed to its innovative multi-agent architec
 
 Furthermore, an iterative feedback mechanism enables agents to continually test and refine the generated code based on local execution feedback, progressively minimizing both semantic and syntactical errors. A key component is the Repair Agent, which continuously monitors and corrects errors. For example, the diagram below illustrates that when a Repair Agent is not utilized, an unnecessary conditional check leads to test case failures; with the Repair Agent, the code is corrected to be both syntactically and semantically accurate.
 
-![The diagram illustrates the improvements in code generation accuracy with the integration of a Repair Agent. The first sub-figure gives a coding task. The second sub-figure shows code produced by a single agent without a Repair Agent, which contains a semantic error. The third sub-figure shows the code generated under the guidance of the Repair Agent, which is correct both syntactically and semantically.](./image/example_discussion.pdf)
+![The diagram illustrates the improvements in code generation accuracy with the integration of a Repair Agent. The first sub-figure gives a coding task. The second sub-figure shows code produced by a single agent without a Repair Agent, which contains a semantic error. The third sub-figure shows the code generated under the guidance of the Repair Agent, which is correct both syntactically and semantically.](./image/2.png)
 
 In summary, CodeCoR’s promising results arise from its self-reflective multi-agent framework that enhances specialization and collaboration, an effective iterative feedback mechanism, and robust error detection and correction capabilities.
 
