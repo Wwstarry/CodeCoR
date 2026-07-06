@@ -1,0 +1,30 @@
+# Configuration for Anthropic Claude via OpenAI-compatible API
+#
+# This config uses the OpenAI backend with Claude model names,
+# suitable for deployments that expose Claude via OpenAI-compatible proxies
+# (e.g., Azure OpenAI, AWS Bedrock wrappers, or internal enterprise proxies).
+#
+# Available model options:
+#   aws.claude-haiku-4.5     ← fast, economical
+#   aws.claude-sonnet-4.5    ← balanced (recommended for large eval runs)
+#   aws.claude-opus-4.6      ← highest quality (matches GPT-4 tier)
+#
+# For standard Anthropic API (export ANTHROPIC_API_KEY=sk-ant-...):
+#   Use backend: anthropic and model: claude-haiku-4-5-20251001 etc.
+
+backend: openai
+model: aws.claude-opus-4.6
+
+# Set CODECOR_API_KEY and CODECOR_BASE_URL environment variables,
+# or pass --api-key / --base-url to the evaluation scripts.
+# api_key: set via OPENAI_API_KEY env var or --api-key flag
+# base_url: set via OPENAI_BASE_URL env var or --base-url flag
+
+max_cot_prompts: 3
+max_test_cases: 5
+max_code_snippets: 3
+max_repair_rounds: 3
+code_timeout: 30
+temperature_gen: 0.8
+temperature_prune: 0.0
+max_tokens: 2048

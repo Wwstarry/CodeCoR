@@ -1,0 +1,5 @@
+Load from previous results from /mnt/dolphinfs/ssd_pool/docker/user/hadoop-videogen-hl/hadoop-camera3d/yifan/info-layout/panruwei/codecor/results/humaneval_gpt35_v2_eval_results.json
+humaneval (base tests)
+pass@1:	0.927
+humaneval+ (base + extra tests)
+pass@1:	0.884

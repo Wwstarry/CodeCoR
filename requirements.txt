@@ -1,0 +1,17 @@
+# Core dependencies
+anthropic>=0.60.0       # Anthropic Claude API
+openai>=1.0.0           # OpenAI API (optional, for GPT-3.5/GPT-4)
+
+# Benchmarks
+evalplus>=0.3.0         # HumanEval, HumanEval+, MBPP, MBPP+ datasets + evaluation
+
+# Metrics
+editdistance>=0.6.3     # Edit distance for Table 3 metrics
+nltk>=3.8               # BLEU score for Table 3 metrics
+
+# Utilities
+pyyaml>=6.0             # YAML config loading
+tqdm>=4.65              # Progress bars
+
+# Testing
+pytest>=7.0

@@ -1,0 +1,14 @@
+# Configuration for GPT-4 (paper's Table 6: HumanEval 94.5%)
+# Requires: export OPENAI_API_KEY=sk-...
+
+backend: openai
+model: gpt-4
+
+max_cot_prompts: 3
+max_test_cases: 5
+max_code_snippets: 3
+max_repair_rounds: 3
+code_timeout: 30
+temperature_gen: 0.8
+temperature_prune: 0.0
+max_tokens: 4096

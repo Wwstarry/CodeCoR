@@ -1,0 +1,25 @@
+# CodeCoR default hyperparameters
+# These match the best settings found in the paper (Figure 7 ablation)
+
+# Phase I: Prompt Generation
+max_cot_prompts: 3        # Number of CoT prompt candidates to generate
+
+# Phase II: Test Case Generation
+max_test_cases: 5         # Number of test case candidates to generate
+
+# Phase III: Code Generation
+max_code_snippets: 3      # Number of code snippet candidates to generate
+
+# Phase V: Code Repair
+max_repair_rounds: 3      # Maximum repair iterations (paper optimal: 3)
+
+# Execution
+code_timeout: 30          # Subprocess timeout in seconds per test run
+
+# LLM temperatures
+temperature_gen: 0.8      # Temperature for generation (diverse sampling)
+temperature_prune: 0.0    # Temperature for pruning (deterministic evaluation)
+
+# LLM general
+max_tokens: 2048          # Maximum tokens per LLM call
+max_retries: 3            # API call retries on failure

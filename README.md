@@ -1,116 +1,358 @@
-# CodeCoR
+<div align="center">
 
-This repository contains the implementation and supplementary resources for the CodeCoR framework, as described in our paper.
+# CodeCoR 🤖🔧
 
-The framework, CodeCoR, aims to a self-reflective multi-agent framework that evaluates the effectiveness of each agent and their collaborations. Below is an overview of the directory structure and contents, organized to facilitate replication and further experimentation.
+### An LLM-Based Self-Reflective Multi-Agent Framework for Code Generation
 
-### Directory Structure
+[![arXiv](https://img.shields.io/badge/arXiv-2501.07811-b31b1b.svg)](https://arxiv.org/abs/2501.07811)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![evalplus](https://img.shields.io/badge/benchmark-evalplus-green)](https://github.com/evalplus/evalplus)
 
-**CodeCoR_agent**
+> **TL;DR:** CodeCoR is a self-reflective multi-agent system that generates, tests, and iteratively repairs code using four specialized LLM agents, achieving **86.6% Pass@1 on HumanEval** and **79.2% on MBPP** with GPT-3.5-turbo—outperforming MapCoder (80.5% / 78.9%) and all prior multi-agent frameworks.
 
-This directory contains the core implementation of the agents in the CodeCoR framework. Each agent is responsible for a distinct phase in the code generation process, such as prompt generation, testing, and code repair. The modular structure allows for easy modification and experimentation with individual agent behaviors.
-
-**dataset**
-
-The dataset directory houses all the datasets used in the experiments. These datasets are integral to evaluating the performance and robustness of the CodeCoR framework. Each file in this directory has been preprocessed to conform to the framework’s requirements, ensuring consistency and repeatability of experimental results.
-
-**experiments**
-
-This directory includes the experimental code and configurations. 
-
-**image**
-
-The image directory contains visual representations, such as diagrams and flowcharts, illustrating the principles and workflow of the CodeCoR framework. These images provide insight into the system architecture and the interaction between the agents, supplementing the explanations provided in the paper.
-
-**utils**
-
-This directory provides utility scripts and helper functions essential for the CodeCoR framework's operation. These scripts support data preprocessing, performance logging, and result visualization, ensuring smooth execution and facilitating further development.
-
-### Prompts
-
-The diagram below elucidates the prompt generation mechanism within the CodeCoR framework:
-![Prompt Image](./image/1.png)
-
-The diagram shows the pruning prompts of agents and the workflow for pruning the low-quality outputs.
-![Prompt Image](./image/3.png)
-
-### Baseline
-
-The table below delineates the baseline configuration employed for comparative evaluation, providing a reference for the framework's performance metrics:
-![Baseline Image](./image/baseline.png)
-
-
-### Can CodeCoR work with other LLMs?
-
-In Section 5.1, we use GPT-3.5-turbo to evaluate the generality of CodeCoR. This section evaluates and assesses the performance of various methods applied to two powerful LLMs: CodeLlama [rozière2024codellamaopenfoundation] and GPT-4 [openai2024gpt4technicalreport]. CodeLlama is a specialized model designed for coding tasks, equipped with advanced training techniques such as infilling and long context handling. Conversely, GPT-4 is a multi-modal model that excels in text comprehension and demonstrates exceptional prowess in complex reasoning tasks.
-
-#### Comparison of different methods on HumanEval and HumanEval-ET datasets
-
-| **Method**     | **GPT-4 HumanEval** | **GPT-4 HumanEval-ET** | **CodeLlama (34B) HumanEval** | **CodeLlama (34B) HumanEval-ET** |
-|----------------|---------------------|------------------------|-------------------------------|----------------------------------|
-| CodeChain      | 89.0                | 61.6                   | 15.9                          | 14.0                             |
-| SCoT           | 78.9                | 69.5                   | 17.4                          | 14.9                             |
-| Self-Planning  | 83.5                | 76.8                   | 22.6                          | 20.1                             |
-| CodeCoT        | 86.6                | 77.4                   | 34.1                          | 29.9                             |
-| ChatDev        | 84.1                | 72.7                   | 23.6                          | 20.6                             |
-| MetaGPT        | 85.9                | 74.0                   | 26.5                          | 23.1                             |
-| MapCoder       | 93.9                | 82.9                   | 42.7                          | 37.0                             |
-| CodeCoR        | **94.5**            | **83.5**               | **43.9**                      | **37.8**                         |
-
-As illustrated in the table above, we observe the performance of various prompting methods on the CodeLlama model. For instance, in the HumanEval dataset, CodeCoR achieves a score of 43.9%, which surpasses CodeCoT's 34.1%, Self-Planning's 22.6%, SCoT's 17.4%, and CodeChain's 15.9%. Similarly, in the HumanEval-ET dataset, CodeCoR scores 37.8%, outperforming all other prompting methods. On the MBPP and MBPP-ET datasets, CodeCoR also leads with scores of 40.6% and 32.3%, respectively. This further substantiates CodeCoR's superior performance across various benchmarks when applied to the CodeLlama model.
-
-To demonstrate the practical applicability of CodeCoR, we tested the framework on various datasets including HumanEval and HumanEval-ET using GPT-4. The results indicated significant improvements in accuracy compared to existing methods. For instance, on the HumanEval dataset, CodeCoR achieved a Pass@1 accuracy of 94.5%, and on the HumanEval-ET dataset, it achieved 83.5%. These results are significantly higher compared to other methods such as CodeChain, SCoT, Self-Planning, and CodeCoT, as shown in the table above.
-
-
-### What are the cost implications of CodeCoR? (RQ3)
-
-The cost implications of most multi-agent frameworks are much higher than that of single-agent frameworks. Therefore, in terms of studying cost implications, we selected three single-agent methods and one multi-agent method to compare with CodeCoR. The table below provides an empirical assessment of various code generation frameworks—CodeCoR, MapCoder, CodeChain, SCoT, and Self-Planning. The experiment was conducted in a Python environment using the first ten programming problems from the HumanEval dataset. We employed [psutil](https://pypi.org/project/psutil/) for monitoring costs, recording execution time, CPU usage, memory usage, disk I/O, and network I/O on a dedicated server to minimize external interference.
-
-
-#### Cost comparison of code generation models
-
-| Method         | Run Time (s) | CPU Usage (%) | Memory Usage (GB) | Disk Read (MB) | Disk Write (MB) | Net Send (MB) | Net Receive (MB) |
-|----------------|--------------|---------------|-------------------|----------------|-----------------|---------------|------------------|
-| CodeCoR       | 123.69       | 0.8           | 0.01              | 0.36           | 11.49           | 0.14          | 0.30             |
-| MapCoder      | 166.45       | 0.8           | 0.02              | 0.48           | 12.78           | 0.25          | 0.36             |
-| CodeChain     | 121.80       | 0.4           | 0.01              | 1.25           | 16.21           | 0.16          | 0.22             |
-| SCoT          | 251.79       | 5.2           | 0.21              | 55.32          | 162.90          | 0.72          | 1.15             |
-| Self-Planning | 242.92       | 0.2           | 0.02              | 1.02           | 31.16           | 0.35          | 0.74             |
-
-In terms of runtime, CodeCoR exhibits superior performance with a time cost of 123.69 seconds, significantly outperforming SCoT and Self-Planning (251.79 s and 242.92 s, respectively). Moreover, both CodeCoR and MapCoder maintain a low CPU usage rate of 0.8%, compared to SCoT’s 5.2%. Memory usage is also minimal for CodeCoR (0.01 GB), while SCoT consumes 0.21 GB. Regarding disk I/O, CodeCoR writes only 11.49 MB compared to SCoT’s 162.90 MB. Analysis of network traffic reveals that CodeCoR, along with the other frameworks, achieves a balanced use of network resources.
-
-Overall, these results demonstrate that CodeCoR incurs lower costs than other code generation frameworks—thanks to efficient task decomposition, effective pruning strategies, and parallel processing capabilities.
-
-**Answer (RQ3):**  
-Our CodeCoR framework incurs less code generation runtime than other representative LLM-based models, and it does not require high usage of computational resources such as CPU, memory, disk I/O, or network bandwidth.
+</div>
 
 ---
 
-### Why does CodeCoR work?
+## 🔍 Overview
 
-The efficacy of CodeCoR can be attributed to its innovative multi-agent architecture, which enhances specialization and collaboration across different stages of the code generation process. By designating specialized agents for generating CoT prompts, synthesizing code, creating test cases, and repairing code, each task is executed by an agent optimized for that specific function, thereby improving both efficiency and accuracy.
+Standard multi-agent code generation pipelines are brittle: a single poor decision by one agent propagates errors to every downstream agent. **CodeCoR** addresses this with a *self-reflective* architecture that:
 
-Furthermore, an iterative feedback mechanism enables agents to continually test and refine the generated code based on local execution feedback, progressively minimizing both semantic and syntactical errors. A key component is the Repair Agent, which continuously monitors and corrects errors. For example, the diagram below illustrates that when a Repair Agent is not utilized, an unnecessary conditional check leads to test case failures; with the Repair Agent, the code is corrected to be both syntactically and semantically accurate.
+1. **Generates diverse candidates** at each phase (CoT prompts, test cases, code snippets)
+2. **Prunes low-quality outputs** before they contaminate downstream agents
+3. **Iteratively repairs failures** using execution feedback and targeted advice
+4. **Ranks all candidates** by execution results and returns the best one
 
-![The diagram illustrates the improvements in code generation accuracy with the integration of a Repair Agent. The first sub-figure gives a coding task. The second sub-figure shows code produced by a single agent without a Repair Agent, which contains a semantic error. The third sub-figure shows the code generated under the guidance of the Repair Agent, which is correct both syntactically and semantically.](./image/2.png)
+```
+Task Description
+      │
+      ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  Phase I  │  Prompt Agent  │ generate N CoT prompts → prune     │
+├─────────────────────────────────────────────────────────────────┤
+│  Phase II │  Test Agent    │ generate M test cases  → prune     │
+├─────────────────────────────────────────────────────────────────┤
+│  Phase III│  Coding Agent  │ generate K code snippets → prune   │
+├─────────────────────────────────────────────────────────────────┤
+│  Phase IV │  Executor      │ run code vs. tests                  │
+│           │                │   ┌──pass──► Ranked Code Set        │
+│           │                │   └──fail──► Repair Queue           │
+├─────────────────────────────────────────────────────────────────┤
+│  Phase V  │  Repair Agent  │ advice → Coding Agent → re-execute  │
+│           │  (≤ 3 rounds)  │   (loop until pass or no progress)  │
+└─────────────────────────────────────────────────────────────────┘
+      │
+      ▼
+  Highest-Ranked Code  (most tests passed, fewest repair rounds)
+```
 
-In summary, CodeCoR’s promising results arise from its self-reflective multi-agent framework that enhances specialization and collaboration, an effective iterative feedback mechanism, and robust error detection and correction capabilities.
+**Pruning criteria** (for Prompt Agent and Repair Agent outputs):
+
+| Score | Criterion | Meaning |
+|:---:|---|---|
+| **Clarity** | 0 / 1 | Output is clear and unambiguous |
+| **Relevance** | 0 / 1 | Directly addresses the task |
+| **Conciseness** | 0 / 1 | Not overly verbose or complex |
+| **Context** | 0 / 1 | Provides sufficient contextual information |
+
+An output must score **[1, 1, 1, 1]** to survive pruning.
 
 ---
 
-### How does the number of repair rounds affect the performance of the agents?
+## 📊 Results
 
-In CodeCoR, the number of repair rounds is a key factor influencing performance. The code repair process for each snippet is halted when further repairs do not yield additional test case passes. In our experiment, we limited the number of repair rounds to various fixed values. The figure below shows that the overall performance of the four agents peaks when the number of repair rounds is set to 3.
+### Pass@1 on HumanEval and MBPP (GPT-3.5-turbo backend)
 
-![Pass@1 results under different repair rounds on HumanEval datasets](./image/Figure_6.png)
+| Method | HumanEval | HumanEval-ET | MBPP | MBPP-ET | **Avg** |
+|---|:---:|:---:|:---:|:---:|:---:|
+| Few-Shot | 67.7 | 54.9 | 65.8 | 48.3 | 59.2 |
+| Reflexion | 68.1 | 50.6 | 70.0 | 47.4 | 59.0 |
+| Self-Collaboration | 74.4 | 56.1 | 68.2 | 49.5 | 62.1 |
+| INTERVENOR | 75.6 | 54.8 | 69.8 | 47.1 | 61.8 |
+| CodeCoT | 79.3 | 69.5 | 67.7 | 58.1 | 68.7 |
+| MapCoder | 80.5 | 77.4 | 78.9 | 54.4 | 72.8 |
+| **CodeCoR (ours)** | **86.6** | **80.5** | **79.2** | **65.2** | **77.8** |
+
+### Pass@1 with Other LLM Backends (HumanEval)
+
+| Method | GPT-4 | CodeLlama-34B |
+|---|:---:|:---:|
+| MapCoder | 93.9 | 42.7 |
+| **CodeCoR (ours)** | **94.5** | **43.9** |
+
+### Code Quality Metrics (HumanEval)
+
+| Method | Avg Edit Distance ↓ | Avg BLEU ↑ |
+|---|:---:|:---:|
+| Self-Planning | 387.53 | 0.249 |
+| CodeChain | 357.20 | 0.263 |
+| MapCoder | 396.20 | 0.236 |
+| **CodeCoR (ours)** | **378.79** | **0.276** |
 
 ---
 
-### Threats to Validity
+## 🚀 Installation
 
-While our study demonstrates promising results, several potential threats to validity remain:
+### Requirements
 
-- **Experimental Variability:** Despite using a consistent experimental setup, minor fluctuations in the execution environment could introduce variability. To mitigate this, we conducted 10 rounds of experiments per trial and averaged the results.
-- **Internal Validity:** Although experimental variables were carefully controlled and multiple trials conducted to ensure consistency, potential experimenter bias and errors were minimized by using automated tools.
-- **Construct Validity:** We selected well-established metrics to evaluate our results, but the suitability of these metrics may be questioned. Future studies could explore alternative evaluation metrics.
-- **External Validity:** The specific datasets and settings used might limit the broader applicability of our findings. Future research will aim to validate our approach on a wider range of datasets and environments.
+- Python ≥ 3.9
+- An LLM API key: [Anthropic Claude](https://www.anthropic.com/) **or** [OpenAI](https://platform.openai.com/)
+
+### Install
+
+```bash
+git clone https://github.com/panruwei/CodeCoR.git
+cd CodeCoR
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Or install as a package
+pip install -e .
+```
+
+### Set API Keys
+
+**Option A — OpenAI (reproduces paper's exact results):**
+```bash
+export OPENAI_API_KEY=sk-...
+```
+
+**Option B — Native Anthropic:**
+```bash
+export ANTHROPIC_API_KEY=sk-ant-...
+```
+
+**Option C — OpenAI-compatible proxy for Claude (enterprise / internal deployments):**
+```bash
+# Many enterprises expose Claude via an OpenAI-compatible proxy endpoint.
+# Use --backend openai with your proxy's URL and key.
+export OPENAI_API_KEY=YOUR_INTERNAL_KEY
+export OPENAI_BASE_URL=https://your-proxy.example.com/v1
+```
+
+---
+
+## ⚡ Quick Start
+
+```python
+from codecor import CodeCoR, CodeCoRConfig, LLMClient
+
+# Initialize LLM client (Anthropic or OpenAI)
+llm = LLMClient(backend="anthropic", model="claude-haiku-4-5-20251001")
+
+# Initialize CodeCoR framework
+framework = CodeCoR(llm)
+
+# Solve a coding problem
+task = """
+def has_close_elements(numbers: List[float], threshold: float) -> bool:
+    \"\"\"Check if any two numbers in the list are closer than threshold.\"\"\"
+"""
+
+solution = framework.generate(task)
+print(solution)
+```
+
+**Output:**
+```python
+def has_close_elements(numbers, threshold):
+    for i in range(len(numbers)):
+        for j in range(i + 1, len(numbers)):
+            if abs(numbers[i] - numbers[j]) < threshold:
+                return True
+    return False
+```
+
+### Command-Line Demo
+
+```bash
+# Default: Anthropic Claude Haiku
+python examples/demo.py
+
+# GPT-3.5-turbo (paper's primary model)
+python examples/demo.py --backend openai --model gpt-3.5-turbo
+
+# Custom problem
+python examples/demo.py --problem "Write a function that reverses a linked list."
+```
+
+---
+
+## 📖 Usage
+
+### HumanEval Evaluation
+
+```bash
+# Step 1: Generate solutions (all 164 problems)
+python evaluate/run_humaneval.py \
+    --backend anthropic \
+    --model claude-haiku-4-5-20251001 \
+    --output results/humaneval_claude.jsonl
+
+# Step 2: Compute Pass@1
+python -m evalplus.evaluate \
+    --dataset humaneval \
+    --samples results/humaneval_claude.jsonl
+```
+
+### MBPP Evaluation
+
+```bash
+python evaluate/run_mbpp.py \
+    --backend anthropic \
+    --model claude-haiku-4-5-20251001 \
+    --output results/mbpp_claude.jsonl
+
+python -m evalplus.evaluate --dataset mbpp --samples results/mbpp_claude.jsonl
+```
+
+### Additional Metrics (Edit Distance + BLEU)
+
+```bash
+python evaluate/metrics.py \
+    --samples results/humaneval_claude.jsonl \
+    --dataset humaneval
+```
+
+### One-Shot Shell Scripts
+
+```bash
+# Run full HumanEval evaluation + scoring in one command
+bash scripts/run_humaneval.sh anthropic claude-haiku-4-5-20251001
+
+# GPT-3.5-turbo (paper results)
+export OPENAI_API_KEY=sk-...
+bash scripts/run_humaneval.sh openai gpt-3.5-turbo
+```
+
+---
+
+## 🔬 Reproducing Paper Results
+
+To reproduce the **exact** results from Table 2 (GPT-3.5-turbo):
+
+```bash
+export OPENAI_API_KEY=sk-...
+
+# HumanEval → 86.6% Pass@1
+python evaluate/run_humaneval.py \
+    --backend openai --model gpt-3.5-turbo \
+    --max-cot 3 --max-tests 5 --max-code 3 \
+    --max-repair-rounds 3 --timeout 30 \
+    --output results/humaneval_gpt35.jsonl
+
+python -m evalplus.evaluate --dataset humaneval --samples results/humaneval_gpt35.jsonl
+
+# MBPP → 79.2% Pass@1
+python evaluate/run_mbpp.py \
+    --backend openai --model gpt-3.5-turbo \
+    --max-repair-rounds 3 \
+    --output results/mbpp_gpt35.jsonl
+
+python -m evalplus.evaluate --dataset mbpp --samples results/mbpp_gpt35.jsonl
+```
+
+> **Note:** Results may vary slightly due to LLM sampling randomness. The paper averages over 10 runs.
+
+---
+
+## ⚙️ Configuration
+
+All hyperparameters are controlled via YAML configs or CLI flags:
+
+| Parameter | Default | Description |
+|---|:---:|---|
+| `max_cot_prompts` | 3 | CoT prompt candidates per problem |
+| `max_test_cases` | 5 | Test case candidates per problem |
+| `max_code_snippets` | 3 | Code snippet candidates per problem |
+| `max_repair_rounds` | **3** | Max repair iterations (paper optimal) |
+| `code_timeout` | 30s | Subprocess execution timeout |
+| `temperature_gen` | 0.8 | LLM temperature for generation |
+| `temperature_prune` | 0.0 | LLM temperature for pruning (deterministic) |
+
+**Available config presets:**
+
+| File | Backend | Model | Use Case |
+|---|---|---|---|
+| `configs/claude.yaml` | Anthropic | claude-haiku-4-5 | Open-source, no OpenAI key |
+| `configs/gpt35.yaml` | OpenAI | gpt-3.5-turbo | **Reproduce paper results** |
+| `configs/gpt4.yaml` | OpenAI | gpt-4 | Best quality (94.5% HumanEval) |
+
+---
+
+## 🏗️ Project Structure
+
+```
+CodeCoR/
+├── codecor/
+│   ├── framework.py          # Main CodeCoR class (5-phase orchestrator)
+│   ├── llm.py                # Unified LLM client (Anthropic + OpenAI)
+│   ├── executor.py           # Safe sandboxed code execution
+│   └── agents/
+│       ├── prompt_agent.py   # Phase I: CoT generation + pruning
+│       ├── test_agent.py     # Phase II: test case generation + pruning
+│       ├── coding_agent.py   # Phase III/V: code generation + repair
+│       └── repair_agent.py   # Phase V: repair advice + pruning
+├── evaluate/
+│   ├── run_humaneval.py      # HumanEval evaluation script
+│   ├── run_mbpp.py           # MBPP evaluation script
+│   └── metrics.py            # Edit distance + BLEU computation
+├── configs/                  # YAML configuration presets
+├── scripts/                  # One-liner evaluation scripts
+├── examples/demo.py          # Interactive demo
+└── tests/                    # Unit tests (pytest)
+```
+
+---
+
+## 🧪 Testing
+
+```bash
+# Run all unit tests
+python -m pytest tests/ -v
+
+# Test a specific component
+python -m pytest tests/test_framework.py::TestExecutor -v
+```
+
+---
+
+## 📝 Citation
+
+If you use CodeCoR in your research, please cite:
+
+```bibtex
+@article{pan2025codecor,
+  title     = {CodeCoR: An LLM-Based Self-Reflective Multi-Agent Framework for Code Generation},
+  author    = {Pan, Ruwei and Zhang, Hongyu and Liu, Chao},
+  journal   = {arXiv preprint arXiv:2501.07811},
+  year      = {2025},
+  url       = {https://arxiv.org/abs/2501.07811}
+}
+```
+
+---
+
+## 📚 Related Work
+
+| Method | Key Idea | HumanEval |
+|---|---|:---:|
+| [Self-Debugging](https://arxiv.org/abs/2304.05128) | LLM explains its own code | ~61% |
+| [CodeChain](https://arxiv.org/abs/2310.08992) | Chain of self-revisions | ~63% |
+| [CodeCoT](https://arxiv.org/abs/2308.08784) | CoT + self-examination | 79.3% |
+| [MapCoder](https://arxiv.org/abs/2405.11403) | 4-agent sequential workflow | 80.5% |
+| **CodeCoR (ours)** | **Self-reflective pruning + repair** | **86.6%** |
+
+---
+
+## 📄 License
+
+This project is released under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+<sub>Chongqing University · arXiv 2501.07811 · 2025</sub>
+</div>
